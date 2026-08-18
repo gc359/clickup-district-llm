@@ -1,0 +1,33 @@
+{
+  "docs": {
+    "docs": [
+      {"id": "doc1", "name": "RingCentral KB"},
+      {"id": "doc2", "name": "Network KB"}
+    ]
+  },
+  "pages": {
+    "doc1": [
+      {
+        "id": "p1",
+        "name": "Setting up RingCentral",
+        "content": "To set up RingCentral, download the app and log in with your district email.",
+        "pages": []
+      }
+    ],
+    "doc2": [
+      {
+        "id": "p2",
+        "name": "Connecting to WiFi",
+        "content": "Select the District-Staff network and enter your AD password.",
+        "pages": [
+          {
+            "id": "p3",
+            "name": "Troubleshooting WiFi",
+            "content": "If WiFi fails, forget the network and reconnect.",
+            "pages": []
+          }
+        ]
+      }
+    ]
+  }
+}

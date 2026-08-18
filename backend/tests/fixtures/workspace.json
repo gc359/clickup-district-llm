@@ -1,0 +1,32 @@
+{
+  "team": {
+    "teams": [
+      {
+        "id": "9000",
+        "name": "Acme Workspace",
+        "members": [
+          {"user": {"id": 101, "username": "grmr359", "email": "grmr359@gmail.com"}},
+          {"user": {"id": 102, "username": "jane", "email": "jane@example.com"}}
+        ]
+      }
+    ]
+  },
+  "spaces": {
+    "spaces": [
+      {"id": "500", "name": "Marketing"},
+      {"id": "501", "name": "Engineering"}
+    ]
+  },
+  "folderless_lists": {
+    "500": {"lists": [{"id": "1000", "name": "General"}]},
+    "501": {"lists": [{"id": "1001", "name": "QA"}]}
+  },
+  "folders": {
+    "500": {"folders": [{"id": "700", "name": "Campaigns"}]},
+    "501": {"folders": [{"id": "701", "name": "Knowledge Base"}]}
+  },
+  "folder_lists": {
+    "700": {"lists": [{"id": "1002", "name": "Q3 Campaign"}]},
+    "701": {"lists": []}
+  }
+}
