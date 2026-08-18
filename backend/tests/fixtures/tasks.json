@@ -1,0 +1,20 @@
+{
+  "tasks": [
+    {
+      "id": "task1",
+      "name": "Fix login redirect",
+      "status": {"status": "open"},
+      "assignees": [{"username": "jane"}],
+      "due_date": "1700000000000",
+      "url": "https://app.clickup.com/t/task1"
+    },
+    {
+      "id": "task2",
+      "name": "Write QA plan",
+      "status": {"status": "open"},
+      "assignees": [],
+      "due_date": null,
+      "url": "https://app.clickup.com/t/task2"
+    }
+  ]
+}
