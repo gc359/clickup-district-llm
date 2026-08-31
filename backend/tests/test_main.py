@@ -116,7 +116,7 @@ def test_public_chat_endpoint_returns_agent_result(monkeypatch):
     async def fake_run_public_agent(message, history, max_steps=5):
         return {
             "text": "Here's what I found.",
-            "trace": [{"tool": "search_helpdesk_tickets", "ok": True, "ms": 10}],
+            "trace": [{"tool": "search_knowledge_base", "ok": True, "ms": 10}],
             "stopped_reason": "complete",
             "messages": history + [{"role": "user", "content": message}],
         }
@@ -128,7 +128,7 @@ def test_public_chat_endpoint_returns_agent_result(monkeypatch):
     assert response.status_code == 200
     body = response.json()
     assert body["text"] == "Here's what I found."
-    assert body["trace"] == [{"tool": "search_helpdesk_tickets", "ok": True, "ms": 10}]
+    assert body["trace"] == [{"tool": "search_knowledge_base", "ok": True, "ms": 10}]
 
 
 def test_public_chat_endpoint_does_not_call_internal_run_agent(monkeypatch):

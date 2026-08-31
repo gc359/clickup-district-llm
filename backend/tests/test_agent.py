@@ -114,7 +114,7 @@ async def test_agent_never_raises_on_llm_failure(monkeypatch):
 
 async def test_public_agent_completes_without_tool_calls(monkeypatch):
     async def fake_chat(messages, tools=None, temperature=0.1):
-        assert {s["name"] for s in tools} == {"search_helpdesk_tickets"}
+        assert {s["name"] for s in tools} == {"search_knowledge_base"}
         return {"role": "assistant", "content": "Hi! How can I help?"}
 
     monkeypatch.setattr(llm, "chat", fake_chat)
@@ -124,37 +124,42 @@ async def test_public_agent_completes_without_tool_calls(monkeypatch):
     assert result["stopped_reason"] == "complete"
     assert result["text"] == "Hi! How can I help?"
     assert result["trace"] == []
-    assert "Helpdesk Hero" in result["messages"][0]["content"]
+    assert "Alpha" in result["messages"][0]["content"]
     assert "Acme Workspace" not in result["messages"][0]["content"]
 
 
-async def test_public_agent_calls_search_helpdesk_tickets(monkeypatch):
+async def test_public_agent_calls_search_knowledge_base(monkeypatch):
     calls = {"n": 0}
 
     async def fake_chat(messages, tools=None, temperature=0.1):
         calls["n"] += 1
         if calls["n"] == 1:
-            assert {s["name"] for s in tools} == {"search_helpdesk_tickets"}
+            assert {s["name"] for s in tools} == {"search_knowledge_base"}
             return {
                 "role": "assistant",
                 "content": "",
                 "tool_calls": [
-                    {"function": {"name": "search_helpdesk_tickets", "arguments": {"query": "wifi"}}}
+                    {
+                        "function": {
+                            "name": "search_knowledge_base",
+                            "arguments": {"query": "building status"},
+                        }
+                    }
                 ],
             }
-        return {"role": "assistant", "content": "Found 1 matching ticket."}
+        return {"role": "assistant", "content": "Found 1 matching article."}
 
     async def fake_execute_public(name, arguments):
-        assert name == "search_helpdesk_tickets"
-        return {"ok": True, "result": {"tasks": []}, "error": None, "ms": 4}
+        assert name == "search_knowledge_base"
+        return {"ok": True, "result": {"results": []}, "error": None, "ms": 4}
 
     monkeypatch.setattr(llm, "chat", fake_chat)
     monkeypatch.setattr(tools, "execute_public", fake_execute_public)
 
-    result = await agent.run_public_agent("any wifi tickets?", [])
+    result = await agent.run_public_agent("what is the building status?", [])
 
     assert result["stopped_reason"] == "complete"
-    assert result["trace"] == [{"tool": "search_helpdesk_tickets", "ok": True, "ms": 4}]
+    assert result["trace"] == [{"tool": "search_knowledge_base", "ok": True, "ms": 4}]
 
 
 async def test_public_agent_cannot_reach_create_task(monkeypatch):

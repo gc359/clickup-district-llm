@@ -13,14 +13,14 @@ describe('ChatWidget', () => {
 
     await user.click(screen.getByRole('button', { name: /open chat/i }))
 
-    expect(screen.getByRole('heading', { name: 'Helpdesk Hero' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'WiFi help' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Alpha' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Building Status' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Submit a ticket' })).toBeInTheDocument()
   })
 
   it('sends a quick reply and renders the widget-scoped chat response', async () => {
     api.postWidgetChat.mockResolvedValueOnce({
-      text: 'Try forgetting the network and reconnecting.',
+      text: 'All buildings are open on a normal schedule.',
       trace: [],
       stopped_reason: 'complete',
     })
@@ -29,13 +29,16 @@ describe('ChatWidget', () => {
     render(<ChatWidget />)
 
     await user.click(screen.getByRole('button', { name: /open chat/i }))
-    await user.click(screen.getByRole('button', { name: 'WiFi help' }))
+    await user.click(screen.getByRole('button', { name: 'Building Status' }))
 
-    expect(screen.getByText('I need WiFi help')).toBeInTheDocument()
+    expect(screen.getByText('What is the current building status?')).toBeInTheDocument()
     await waitFor(() => {
-      expect(screen.getByText('Try forgetting the network and reconnecting.')).toBeInTheDocument()
+      expect(screen.getByText('All buildings are open on a normal schedule.')).toBeInTheDocument()
     })
-    expect(api.postWidgetChat).toHaveBeenCalledWith(expect.any(String), 'I need WiFi help')
+    expect(api.postWidgetChat).toHaveBeenCalledWith(
+      expect.any(String),
+      'What is the current building status?',
+    )
   })
 
   it('opens the ticket form from the "Submit a ticket" quick reply', async () => {
