@@ -2,16 +2,17 @@ import { useRef, useState } from 'react'
 import ChatFab from './ChatFab.jsx'
 import ChatPanel from './ChatPanel.jsx'
 import { postWidgetChat } from '../../api.js'
+import { newSessionId } from '../../sessionId.js'
 
 let nextId = 1
 
 const GREETING =
-  "Hey! I'm Helpdesk Hero. I can troubleshoot IT issues or submit a support ticket for you. What do you need help with?"
+  "Hey! I'm Alpha v1.0. I can troubleshoot IT issues or submit a support ticket for you. What do you need help with?"
 
 export default function ChatWidget() {
   const sessionIdRef = useRef(null)
   if (sessionIdRef.current === null) {
-    sessionIdRef.current = crypto.randomUUID()
+    sessionIdRef.current = newSessionId()
   }
 
   const [open, setOpen] = useState(false)

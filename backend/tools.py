@@ -31,25 +31,6 @@ TOOL_SCHEMAS = [
         },
     },
     {
-        "name": "create_task",
-        "description": "Create a task. Accepts a list NAME, resolved internally.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "list_name": {"type": "string"},
-                "name": {"type": "string"},
-                "description": {"type": "string"},
-                "due_date": {"type": "string", "description": "ISO 8601 date"},
-                "priority": {
-                    "type": "string",
-                    "enum": ["urgent", "high", "normal", "low"],
-                },
-                "assignee": {"type": "string"},
-            },
-            "required": ["list_name", "name"],
-        },
-    },
-    {
         "name": "search_knowledge_base",
         "description": (
             "Search IT knowledge-base articles (e.g. RingCentral, Network setup) for help "
@@ -83,18 +64,17 @@ async def _search_tasks(**kwargs) -> dict:
     return await clickup.search_tasks(**kwargs)
 
 
-async def _create_task(**kwargs) -> dict:
-    return await clickup.create_task(**kwargs)
-
-
 async def _search_knowledge_base(**kwargs) -> dict:
     return await clickup.search_knowledge_base(**kwargs)
 
 
+# Read-only by construction. create_task is deliberately absent from this
+# registry — chat can never write to ClickUp, no matter what the model emits.
+# The only sanctioned write path is POST /api/ticket, which calls
+# clickup.create_task directly (see main.py).
 TOOLS = {
     "list_workspace": _list_workspace,
     "search_tasks": _search_tasks,
-    "create_task": _create_task,
     "search_knowledge_base": _search_knowledge_base,
 }
 
@@ -131,15 +111,20 @@ PUBLIC_TOOL_SCHEMAS = [
     {
         "name": "search_knowledge_base",
         "description": (
-            "Search IT knowledge-base articles (e.g. RingCentral, Network setup) for help "
-            "content. Query is optional: call with no arguments to list all KB pages."
+            "Search IT knowledge-base articles (e.g. building status, district phone "
+            "directory, RingCentral, network setup) for help content. Query is optional: "
+            "call with no arguments to list all KB pages."
         ),
         "parameters": {
             "type": "object",
             "properties": {
                 "query": {
                     "type": "string",
-                    "description": "Optional: text to match in KB page titles or content.",
+                    "description": (
+                        "Optional: a short keyword phrase matched literally against KB "
+                        "page titles and content. Prefer 'building status' over 'what "
+                        "is the current building status?'."
+                    ),
                 },
             },
             "required": [],

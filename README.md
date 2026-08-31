@@ -24,7 +24,7 @@ cd backend
 python -m venv .venv
 ./.venv/bin/pip install -r requirements.txt      # Windows: .venv\Scripts\pip
 cp .env.example .env                             # then fill in CLICKUP_TOKEN
-./.venv/bin/uvicorn main:app --reload --port 8000
+.venv\Scripts\uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 
 Required in `.env`:
@@ -39,6 +39,8 @@ Required in `.env`:
   pulled in Ollama) and restart the backend. No code changes needed either way.
 - `MAX_STEPS` — agent loop iteration cap, default `5`.
 - `CORS_ORIGINS` — comma-separated list, defaults to `http://localhost:5173`.
+- `CLICKUP_KB_FOLDER_NAME` — ClickUp Folder holding the Docs the public widget
+  searches, defaults to `Knowledge Base`.
 
 Run tests: `./.venv/bin/pytest -q` (uses mocked HTTP/LLM calls — no live Ollama
 or ClickUp token required).
@@ -53,6 +55,13 @@ npm run dev                # http://localhost:5173
 ```
 
 Run tests: `npm test`. Build for production: `npm run build`.
+
+## Public helpdesk widget
+
+The site-wide chat widget is "Alpha v1.0" (`src/components/chat/`), backed by
+`POST /api/chat`. Its only tool is a live ClickUp Docs lookup over the
+`CLICKUP_KB_FOLDER_NAME` folder, matched by literal substring — so the quick-reply
+topics need Docs pages whose titles contain "Building Status" and "Phone Directory".
 
 ## First run checklist (on the machine that actually has Ollama + a ClickUp token)
 

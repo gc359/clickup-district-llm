@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
+import { ExternalLink } from 'lucide-react'
 
-export default function ServiceCard({ to, icon: Icon, title, desc, badge, variant }) {
+export default function ServiceCard({ to, icon: Icon, title, desc, badge, variant, external }) {
   const className = variant ? `service-link ${variant}` : 'service-link'
-
-  return (
-    <Link to={to} className={className}>
+  const content = (
+    <>
       <div className="service-icon">
         <Icon />
       </div>
@@ -12,9 +12,24 @@ export default function ServiceCard({ to, icon: Icon, title, desc, badge, varian
         <h3>
           {title}
           {badge && <span className="service-badge">{badge}</span>}
+          {external && <ExternalLink className="service-external-icon" aria-hidden="true" />}
         </h3>
         <p>{desc}</p>
       </div>
+    </>
+  )
+
+  if (external) {
+    return (
+      <a href={to} className={className} target="_blank" rel="noopener noreferrer">
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <Link to={to} className={className}>
+      {content}
     </Link>
   )
 }

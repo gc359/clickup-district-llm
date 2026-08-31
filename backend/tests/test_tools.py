@@ -34,12 +34,12 @@ async def test_execute_wraps_clickup_error_without_raising(monkeypatch):
 
 
 async def test_execute_unexpected_exception_is_caught(monkeypatch):
-    async def fake_create_task(**kwargs):
+    async def fake_list_workspace():
         raise ValueError("boom")
 
-    monkeypatch.setattr(clickup, "create_task", fake_create_task)
+    monkeypatch.setattr(clickup, "list_workspace", fake_list_workspace)
 
-    outcome = await tools.execute("create_task", {"list_name": "QA", "name": "x"})
+    outcome = await tools.execute("list_workspace", {})
 
     assert outcome["ok"] is False
     assert "boom" in outcome["error"]
@@ -51,27 +51,28 @@ async def test_execute_unknown_tool_returns_error_not_raise():
     assert "Unknown tool" in outcome["error"]
 
 
-async def test_execute_create_task_passes_kwargs_through(monkeypatch):
-    captured = {}
+async def test_execute_create_task_is_unreachable(monkeypatch):
+    """Chat is read-only: create_task is absent from the internal registry, so a
+    call never reaches clickup.create_task even if the model emits one."""
 
-    async def fake_create_task(**kwargs):
-        captured.update(kwargs)
-        return {"id": "1", "name": kwargs["name"], "url": "https://x"}
+    async def fail_if_called(**kwargs):
+        raise AssertionError("clickup.create_task must not be reachable from chat")
 
-    monkeypatch.setattr(clickup, "create_task", fake_create_task)
+    monkeypatch.setattr(clickup, "create_task", fail_if_called)
 
     outcome = await tools.execute(
         "create_task", {"list_name": "QA", "name": "Test", "priority": "high"}
     )
 
-    assert outcome["ok"] is True
-    assert captured == {"list_name": "QA", "name": "Test", "priority": "high"}
+    assert outcome["ok"] is False
+    assert "Unknown tool" in outcome["error"]
 
 
 def test_tool_schemas_names_match_registry():
     schema_names = {schema["name"] for schema in tools.TOOL_SCHEMAS}
     assert schema_names == set(tools.TOOLS.keys())
-    assert schema_names == {"list_workspace", "search_tasks", "create_task", "search_knowledge_base"}
+    assert schema_names == {"list_workspace", "search_tasks", "search_knowledge_base"}
+    assert "create_task" not in schema_names
 
 
 async def test_execute_search_knowledge_base_passes_kwargs_through(monkeypatch):

@@ -2,13 +2,14 @@ import { useRef, useState } from 'react'
 import MessageList from '../components/MessageList.jsx'
 import Composer from '../components/Composer.jsx'
 import { postChat } from '../api.js'
+import { newSessionId } from '../sessionId.js'
 
 let nextId = 1
 
 export default function Agent() {
   const sessionIdRef = useRef(null)
   if (sessionIdRef.current === null) {
-    sessionIdRef.current = crypto.randomUUID()
+    sessionIdRef.current = newSessionId()
   }
 
   const [messages, setMessages] = useState([])

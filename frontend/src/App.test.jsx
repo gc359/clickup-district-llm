@@ -34,13 +34,26 @@ describe('App routing', () => {
   })
 
   it.each([
-    ['/wifi-request', 'WiFi Your Phone'],
-    ['/ticket-request', 'Request Tech Support'],
-    ['/training-request', 'Tech-ED Training'],
-    ['/id-request', 'ID Request'],
-    ['/media-specialist-helpdesk', 'Media Specialist Portal'],
-  ])('resolves the stub route %s', (path, heading) => {
+    ['/wifi-request', 'WiFi Your Phone', 'https://forms.clickup.com/9014421433/f/8cmu9xt-10274/1Y9ZK3KUWYES4VUMK9'],
+    ['/ticket-request', 'Request Tech Support', 'https://forms.clickup.com/9014421433/f/8cmu9xt-1394/VD6ZUUD0H5MCHPEH3R'],
+    ['/training-request', 'Tech-ED Training', 'https://forms.clickup.com/9014421433/f/8cmu9xt-8714/SI4KA8USV49RXV9RXR'],
+    ['/id-request', 'ID Request', 'https://forms.clickup.com/9014421433/f/8cmu9xt-10294/LE7CAQHAKESP6J0KSD'],
+    ['/chromebook-repair', 'Media Specialist Chromebook Repair', 'https://forms.clickup.com/9014421433/f/8cmu9xt-14274/487EVW1HFMQEO835RS'],
+  ])('renders the %s form page with a working embed', (path, heading, formSrc) => {
     renderAt(path)
-    expect(screen.getByText(heading)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: heading })).toBeInTheDocument()
+    expect(screen.getByTitle(`${heading} form`)).toHaveAttribute('src', formSrc)
+  })
+
+  it('renders the media specialist hub with an internal repair link and an external device-request link', () => {
+    renderAt('/media-specialist-helpdesk')
+    expect(screen.getByRole('heading', { level: 1, name: 'Chromebook Helpdesk' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Chromebook Repair/i })).toHaveAttribute('href', '/chromebook-repair')
+    const deviceLink = screen.getByRole('link', { name: /New\/Replacement Device/i })
+    expect(deviceLink).toHaveAttribute(
+      'href',
+      'https://bloomfieldk12.clickup.com/forms/9014421433/f/8cmu9xt-23694/MFLD5VDFT3651RIJ64',
+    )
+    expect(deviceLink).toHaveAttribute('target', '_blank')
   })
 })

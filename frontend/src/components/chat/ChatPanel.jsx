@@ -55,8 +55,8 @@ export default function ChatPanel({
           <Bot />
         </div>
         <div className="chat-header-info">
-          <h2>Helpdesk Hero</h2>
-          <p>AI Tech Support</p>
+          <h2>Alpha</h2>
+          <p>v1.0</p>
         </div>
         <div className="chat-status" title="Online" />
       </div>

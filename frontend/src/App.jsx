@@ -7,6 +7,7 @@ import TicketRequest from './pages/TicketRequest.jsx'
 import TrainingRequest from './pages/TrainingRequest.jsx'
 import IdRequest from './pages/IdRequest.jsx'
 import MediaSpecialistHelpdesk from './pages/MediaSpecialistHelpdesk.jsx'
+import ChromebookRepair from './pages/ChromebookRepair.jsx'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/training-request" element={<TrainingRequest />} />
         <Route path="/id-request" element={<IdRequest />} />
         <Route path="/media-specialist-helpdesk" element={<MediaSpecialistHelpdesk />} />
+        <Route path="/chromebook-repair" element={<ChromebookRepair />} />
         <Route path="*" element={<Landing />} />
       </Routes>
     </>

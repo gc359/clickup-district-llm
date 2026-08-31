@@ -1,6 +1,6 @@
 const REPLIES = [
-  { label: 'WiFi help', msg: 'I need WiFi help' },
-  { label: 'Password reset', msg: 'My password needs to be reset' },
+  { label: 'Building Status', msg: 'What is the current building status?' },
+  { label: 'District Phone Directory', msg: 'I need the district phone directory' },
   { label: 'Printer issue', msg: 'I have a printer issue' },
   { label: 'Submit a ticket', action: 'show-form' },
 ]

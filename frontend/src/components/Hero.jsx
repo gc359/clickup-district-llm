@@ -1,11 +1,11 @@
-export default function Hero() {
+export default function Hero({
+  title = 'How can we help you today?',
+  description = 'The Bloomfield Technology Department handles hardware, software, security, and data management to keep our district running on a secure, efficient system.',
+}) {
   return (
     <div className="hero">
-      <h1>How can we help you today?</h1>
-      <p>
-        The Bloomfield Technology Department handles hardware, software, security, and data
-        management to keep our district running on a secure, efficient system.
-      </p>
+      <h1>{title}</h1>
+      <p>{description}</p>
     </div>
   )
 }
