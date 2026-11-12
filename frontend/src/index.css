@@ -255,6 +255,33 @@ main {
   color: var(--text-primary);
 }
 
+.notice-callout {
+  width: 100%;
+  max-width: 640px;
+  margin: -1.5rem auto 2.5rem;
+  background: var(--gold-subtle);
+  border: 1px solid var(--gold);
+  border-left: 5px solid var(--gold);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 1.0625rem;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.notice-callout a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.notice-callout a:hover,
+.notice-callout a:focus-visible {
+  color: var(--primary-hover);
+}
+
 /* ========== Chatbot ========== */
 .chat-fab {
   position: fixed;
