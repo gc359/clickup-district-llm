@@ -4,7 +4,7 @@ import Hero from '../components/Hero.jsx'
 import ClickUpFormEmbed from '../components/ClickUpFormEmbed.jsx'
 import Footer from '../components/Footer.jsx'
 
-const FORM_URL = 'https://forms.clickup.com/9014421433/f/8cmu9xt-14274/487EVW1HFMQEO835RS'
+const FORM_URL = 'https://forms.clickup.com/9014421433/f/8cmu9xt-23714/2PR1PC86XVOLYWHJGR'
 
 export default function ChromebookRepair() {
   return (

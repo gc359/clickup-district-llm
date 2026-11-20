@@ -38,7 +38,7 @@ describe('App routing', () => {
     ['/ticket-request', 'Request Tech Support', 'https://forms.clickup.com/9014421433/f/8cmu9xt-1394/VD6ZUUD0H5MCHPEH3R'],
     ['/training-request', 'Tech-ED Training', 'https://forms.clickup.com/9014421433/f/8cmu9xt-8714/SI4KA8USV49RXV9RXR'],
     ['/id-request', 'ID Request', 'https://forms.clickup.com/9014421433/f/8cmu9xt-10294/LE7CAQHAKESP6J0KSD'],
-    ['/chromebook-repair', 'Media Specialist Chromebook Repair', 'https://forms.clickup.com/9014421433/f/8cmu9xt-14274/487EVW1HFMQEO835RS'],
+    ['/chromebook-repair', 'Media Specialist Chromebook Repair', 'https://forms.clickup.com/9014421433/f/8cmu9xt-23714/2PR1PC86XVOLYWHJGR'],
   ])('renders the %s form page with a working embed', (path, heading, formSrc) => {
     renderAt(path)
     expect(screen.getByRole('heading', { level: 1, name: heading })).toBeInTheDocument()
